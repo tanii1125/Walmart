@@ -159,7 +159,7 @@
             <td>{{ item.name }}</td>
             <td>{{ item.company }}</td>
             <td>{{ item.remaining }}</td>
-            <td>{{ (item.efficiency * 100) | round(2) }}%</td>
+            <td>{{ (item.efficiency ) | round(2) }}%</td>
             <td>
                 {% if item.suggestion == "Buy More" %}
                     <span class="suggestion-buy-more">🟢 Buy More</span>
@@ -169,6 +169,7 @@
                     <span class="suggestion-sufficient">✅ Sufficient Stock</span>
                 {% endif %}
             </td>
+
         </tr>
         {% endfor %}
     </table>

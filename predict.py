@@ -12,7 +12,6 @@ def get_predictions():
         suggestion=""
         
         if remaining < 100:
-            print(efficiency)
             if efficiency > 70:
                 suggestion = "Buy More"
             else:
@@ -27,7 +26,7 @@ def get_predictions():
             "efficiency": efficiency,
             "suggestion": suggestion
         })
-        print(predictions)
+#get_predictions()
         return predictions
 def get_zero_stock_items():
     # Re-define full item list without filtering
