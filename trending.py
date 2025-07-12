@@ -1,5 +1,5 @@
 from datetime import datetime
-from list import get_items
+from items import get_items
 
 # Simple mapping of months/festivals to item categories
 festival_map = {

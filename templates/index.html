@@ -51,18 +51,24 @@
     </div>
     <div class="navbar">Walmart</div>
     <div id="festival-popup" style="background-color: #ffe066; color: #333; padding: 16px; text-align: center; font-size: 1.1em; border-bottom: 1px solid #ffd700;">
-        🎉 Upcoming Festival: Independence Day Sale on July 4th! Don't miss out on special offers!
+        🌧️ Monsoon Magic: Let the rain wash away worries and bring fresh beginnings. Enjoy exclusive monsoon offers!
         <br>
-        <button style="margin-top:10px; padding:10px 20px; font-size:1em; background-color:#0071ce; color:#fff; border:none; border-radius:5px; cursor:pointer;" onclick="window.location.href='recommend.html'">
+        <button style="margin-top:10px; padding:10px 20px; font-size:1em; background-color:#0071ce; color:#fff; border:none; border-radius:5px; cursor:pointer;" onclick="window.location.href='trending'">
             Explore Items to Buy
         </button></div>
+     {% if out_of_stock_count > 0 %}
+    <div class="emergency-popup">
+        🔴 {{ out_of_stock_count }} item(s) are out of stock. Restock immediately! 
+        <a href="{{ url_for('predict') }}#outofstock">[See more]</a>
+    </div>
+    {% endif %}
     <div class="container">
         <div class="welcome">Welcome</div>
         <div class="buttons">
-            <button onclick="window.location.href='items.html'">See Available items</button>
-            <button onclick="window.location.href='deals.html'">See all Deals</button>
-            <button onclick="window.location.href='predict_rest.html'">Predict Restocking</button>
-            <button onclick="window.location.href='trending.html'">Most Popular Items</button>
+            <button onclick="window.location.href='display_items'">See Available items</button>
+            <button onclick="window.location.href='deals'">See all Deals</button>
+            <button onclick="window.location.href='restore_predict'">Predict Restocking</button>
+            <button onclick="window.location.href='most_popular'">Most Popular Items</button>
         </div>
     </div>
 </body>

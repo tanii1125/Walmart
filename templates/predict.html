@@ -22,7 +22,8 @@
     </style>
 </head>
 <body>
-    <h2 style="text-align:center;">📦 Smart Restocking Predictions (Efficiency Based)</h2>
+
+    <h2 style="text-align:center;">📦 Smart Restocking Predictions</h2>
     <table>
         <tr>
             <th>S. No</th>
@@ -51,5 +52,49 @@
         </tr>
         {% endfor %}
     </table>
+
+    {% if out_of_stock %}
+    <h2 style="text-align:center; color:red; margin-top:40px;">🟥 Out of Stock — Restock Immediately</h2>
+    <table>
+        <tr>
+            <th>S. No</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Sold</th>
+            <th>Total Purchased</th>
+        </tr>
+        {% for item in out_of_stock %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.company }}</td>
+            <td>{{ item.sell }}</td>
+            <td>{{ item.total_purchase }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    {% if restock_by_date %}
+    <h2 style="text-align:center; color:orange; margin-top:40px;">📆 Restocking Due by Date</h2>
+    <table>
+        <tr>
+            <th>S. No</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Last Restocked</th>
+            <th>Days Since</th>
+        </tr>
+        {% for item in restock_by_date %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.company }}</td>
+            <td>{{ item.last_restock_date }}</td>
+            <td>{{ item.days_since }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
 </body>
 </html>

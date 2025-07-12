@@ -1,8 +1,7 @@
-<!-- templates/items.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Inventory Efficiency Table</title>
+    <title>Most Popular Items</title>
     <style>
         table {
             border-collapse: collapse;
@@ -10,40 +9,36 @@
             margin: 20px auto;
         }
         th, td {
-            border: 1px solid #333;
+            border: 1px solid #555;
             padding: 8px;
             text-align: center;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #d4edda;
         }
     </style>
 </head>
 <body>
-    <h2 style="text-align:center;">Inventory Efficiency Report</h2>
+    <h2 style="text-align:center;">🔥 Most Popular On-Demand Items</h2>
     <table>
         <tr>
-            <th>S. No</th>
+            <th>Rank</th>
             <th>Name</th>
             <th>Company</th>
-            <th>Expiry</th>
-            <th>Number of Purchase</th>
-            <th>Sold</th>
-            <th>Remaining Stock</th>
-            <th>Last restocked</th>
+            <th>Units Sold</th>
+            <th>Total Purchased</th>
             <th>Efficiency</th>
+            <th>Popularity Score</th>
         </tr>
         {% for item in items %}
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.company }}</td>
-            <td>{{ item.expiry }}</td>
-            <td>{{ item.total_purchase }}</td>
             <td>{{ item.sell }}</td>
-            <td>{{ item.total_purchase - item.sell }}</td>
-            <td>{{ item.last_restock_date }}</td>
-            <td>{{ (item.efficiency *100) | round(2) }}</td>
+            <td>{{ item.total }}</td>
+            <td>{{ (item.efficiency * 100) | round(2) }}%</td>
+            <td>{{ item.popularity_score | round(2) }}%</td>
         </tr>
         {% endfor %}
     </table>
