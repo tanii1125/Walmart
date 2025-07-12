@@ -161,9 +161,9 @@
             <td>{{ item.remaining }}</td>
             <td>{{ (item.efficiency * 100) | round(2) }}%</td>
             <td>
-                {% if item.suggestion == 'Buy More' %}
+                {% if item.suggestion == "Buy More" %}
                     <span class="suggestion-buy-more">🟢 Buy More</span>
-                {% elif item.suggestion == 'Buy Less' %}
+                {% elif item.suggestion == "Buy Less" %}
                     <span class="suggestion-buy-less">🟡 Buy Less</span>
                 {% else %}
                     <span class="suggestion-sufficient">✅ Sufficient Stock</span>

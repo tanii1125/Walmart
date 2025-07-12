@@ -6,16 +6,20 @@ def get_predictions():
 
     for item in get_items():
         remaining = item['total_purchase'] - item['sell']
-        efficiency = item['efficiency']  # already calculated in list.py
-
+        efficiency = item['efficiency']
+        if efficiency <= 1:
+            efficiency *= 100
+        suggestion=""
+        
         if remaining < 100:
-            if efficiency < 0.3:
+            print(efficiency)
+            if efficiency > 70:
                 suggestion = "Buy More"
             else:
                 suggestion = "Buy Less"
         else:
             suggestion = "Sufficient Stock"
-
+            
         predictions.append({
             "name": item['name'],
             "company": item['company'],
@@ -23,8 +27,8 @@ def get_predictions():
             "efficiency": efficiency,
             "suggestion": suggestion
         })
-
-    return predictions
+        print(predictions)
+        return predictions
 def get_zero_stock_items():
     # Re-define full item list without filtering
 
