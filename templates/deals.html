@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deals - Expiring Soon</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #ffdddd;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center; color: red;">⚠️ Deals — Items Expiring Soon</h2>
+    <table>
+        <tr>
+            <th>S. No</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Expiry</th>
+            <th>Number of Purchase</th>
+            <th>Sold</th>
+            <th>Efficiency</th>
+        </tr>
+        {% for item in deals %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.company }}</td>
+            <td>{{ item.expiry }}</td>
+            <td>{{ item.total_purchase }}</td>
+            <td>{{ item.sell }}</td>
+            <td>{{ (item.efficiency * 100) | round(2) }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

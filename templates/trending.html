@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trending Seasonal Products</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #ffeeba;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">🎉 Trending Products for Upcoming Season</h2>
+    <table>
+        <tr>
+            <th>S. No</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Expiry</th>
+            <th>Efficiency</th>
+            <th>Suggested For</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.company }}</td>
+            <td>{{ item.expiry }}</td>
+            <td>{{ (item.efficiency * 100) | round(2) }}%</td>
+            <td>{{ item.suggested_for }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
