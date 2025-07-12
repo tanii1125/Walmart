@@ -3,28 +3,148 @@
 <head>
     <title>Restock Prediction</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f8ff;
+        }
+        
+        h2 {
+            color: #1e3a8a;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .search-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .search-box {
+            padding: 10px 40px 10px 10px;
+            font-size: 16px;
+            border: 2px solid #3b82f6;
+            border-radius: 5px;
+            width: 300px;
+            max-width: 100%;
+            background-color: white;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3b82f6;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #1d4ed8;
+            box-shadow: 0 0 5px rgba(29, 78, 216, 0.3);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #1e40af;
+            font-style: italic;
+            background-color: white;
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            margin-top: 40px;
+        }
+        
+        .out-of-stock {
+            color: #dc2626;
+        }
+        
+        .restock-date {
+            color: #ea580c;
+        }
+        
         table {
             border-collapse: collapse;
             width: 80%;
             margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        
         th, td {
-            border: 1px solid #444;
-            padding: 8px;
+            border: 1px solid #bfdbfe;
+            padding: 12px 8px;
             text-align: center;
         }
+        
         th {
-            background-color: #e2f0cb;
+            background-color: #1e40af;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+        
+        tbody tr:nth-child(even) {
+            background-color: #eff6ff;
+        }
+        
+        tbody tr:hover {
+            background-color: #dbeafe;
+            transition: background-color 0.3s ease;
+        }
+        
         td:last-child {
             font-weight: bold;
+        }
+        
+        .suggestion-buy-more {
+            color: #16a34a;
+        }
+        
+        .suggestion-buy-less {
+            color: #ca8a04;
+        }
+        
+        .suggestion-sufficient {
+            color: #059669;
         }
     </style>
 </head>
 <body>
 
-    <h2 style="text-align:center;">📦 Smart Restocking Predictions</h2>
-    <table>
+    <h2>📦 Smart Restocking Predictions</h2>
+    
+    <div class="search-container">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search by name, company, or any field...">
+            <span class="search-icon">🔍</span>
+        </div>
+    </div>
+    
+    <div id="noResults" class="no-results" style="display: none;">
+        No items found matching your search.
+    </div>
+    
+    <table id="predictionsTable">
         <tr>
             <th>S. No</th>
             <th>Name</th>
@@ -42,11 +162,11 @@
             <td>{{ (item.efficiency * 100) | round(2) }}%</td>
             <td>
                 {% if item.suggestion == 'Buy More' %}
-                    🟢 Buy More
+                    <span class="suggestion-buy-more">🟢 Buy More</span>
                 {% elif item.suggestion == 'Buy Less' %}
-                    🟡 Buy Less
+                    <span class="suggestion-buy-less">🟡 Buy Less</span>
                 {% else %}
-                    ✅ Sufficient Stock
+                    <span class="suggestion-sufficient">✅ Sufficient Stock</span>
                 {% endif %}
             </td>
         </tr>
@@ -54,8 +174,8 @@
     </table>
 
     {% if out_of_stock %}
-    <h2 style="text-align:center; color:red; margin-top:40px;">🟥 Out of Stock — Restock Immediately</h2>
-    <table>
+    <h2 class="section-title out-of-stock">🟥 Out of Stock — Restock Immediately</h2>
+    <table id="outOfStockTable">
         <tr>
             <th>S. No</th>
             <th>Name</th>
@@ -74,9 +194,10 @@
         {% endfor %}
     </table>
     {% endif %}
+    
     {% if restock_by_date %}
-    <h2 style="text-align:center; color:orange; margin-top:40px;">📆 Restocking Due by Date</h2>
-    <table>
+    <h2 class="section-title restock-date">📆 Restocking Due by Date</h2>
+    <table id="restockByDateTable">
         <tr>
             <th>S. No</th>
             <th>Name</th>
@@ -95,6 +216,53 @@
         {% endfor %}
     </table>
     {% endif %}
+
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const noResults = document.getElementById('noResults');
+            let totalVisibleRows = 0;
+            
+            // Search in all tables
+            const tables = ['predictionsTable', 'outOfStockTable', 'restockByDateTable'];
+            
+            tables.forEach(tableId => {
+                const table = document.getElementById(tableId);
+                if (table) {
+                    const rows = table.getElementsByTagName('tbody')[0]?.getElementsByTagName('tr') || [];
+                    let visibleRows = 0;
+                    
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = rows[i];
+                        const text = row.textContent.toLowerCase();
+                        
+                        if (text.includes(searchTerm)) {
+                            row.style.display = '';
+                            visibleRows++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                    
+                    totalVisibleRows += visibleRows;
+                    
+                    // Show/hide table based on visible rows
+                    if (visibleRows === 0 && searchTerm !== '') {
+                        table.style.display = 'none';
+                    } else {
+                        table.style.display = 'table';
+                    }
+                }
+            });
+            
+            // Show/hide no results message
+            if (totalVisibleRows === 0 && searchTerm !== '') {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 </html>

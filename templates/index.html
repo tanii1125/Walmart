@@ -4,72 +4,347 @@
     <meta charset="UTF-8">
     <title>Walmart</title>
     <style>
-        body {
-            background-color: #fff;
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 177, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
         .navbar {
-            background-color: #0071ce;
+            background: linear-gradient(135deg, #0071ce 0%, #004c99 100%);
             color: #fff;
-            padding: 16px 0;
+            padding: 20px 0;
             text-align: center;
-            font-size: 1.5em;
+            font-size: 1.8em;
+            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(0, 113, 206, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .navbar span {
+            position: relative;
+            z-index: 1;
+        }
+
+        #festival-popup {
+            background: url('static/images/new_rain.jpg') no-repeat center center / cover;
+            color: #fff; /* optional: for better text visibility */
+            color: #333;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1em;
+            border-bottom: 3px solid #545252;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #festival-popup button {
+            margin-top: 12px;
+            padding: 12px 24px;
+            font-size: 1em;
+            background: linear-gradient(135deg, #0071ce 0%, #004c99 100%);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 113, 206, 0.3);
+            transform: translateY(0);
+        }
+
+        #festival-popup button:hover {
+            background: linear-gradient(135deg, #005fa3 0%, #003d7a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 113, 206, 0.4);
+        }
+
+        .emergency-popup {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .emergency-popup a {
+            color: #fff;
+            text-decoration: underline;
             font-weight: bold;
         }
+
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 80vh;
+            min-height: 70vh;
+            padding: 40px 20px;
         }
+
         .welcome {
-            font-size: 2em;
-            margin-bottom: 30px;
+            font-size: 3.2em;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
         }
+
+        .welcome::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .buttons {
-            display: flex;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            width: 100%;
+            padding: 0 20px;
         }
+
         .buttons button {
-            padding: 15px 30px;
-            font-size: 1em;
+            padding: 20px 30px;
+            font-size: 1.1em;
             border: none;
-            border-radius: 6px;
-            background-color: #0071ce;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #0071ce 0%, #004c99 100%);
             color: #fff;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 113, 206, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: fadeInUp 1s ease-out;
         }
+
+        .buttons button:nth-child(1) { animation-delay: 0.1s; }
+        .buttons button:nth-child(2) { animation-delay: 0.2s; }
+        .buttons button:nth-child(3) { animation-delay: 0.3s; }
+        .buttons button:nth-child(4) { animation-delay: 0.4s; }
+
+        .buttons button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .buttons button:hover::before {
+            left: 100%;
+        }
+
         .buttons button:hover {
-            background-color: #005fa3;
+            background: linear-gradient(135deg, #005fa3 0%, #003d7a 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 113, 206, 0.4);
+        }
+
+        .buttons button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 113, 206, 0.3);
+        }
+
+        /* Floating particles animation */
+        .particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-100px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .welcome {
+                font-size: 2.5em;
+                margin-bottom: 30px;
+            }
+            
+            .buttons {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .buttons button {
+                padding: 18px 25px;
+                font-size: 1em;
+            }
+            
+            .navbar {
+                font-size: 1.5em;
+                padding: 15px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome {
+                font-size: 2em;
+            }
+            
+            #festival-popup {
+                font-size: 1em;
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <span>Walmart</span>
     </div>
-    <div class="navbar">Walmart</div>
-    <div id="festival-popup" style="background-color: #ffe066; color: #333; padding: 16px; text-align: center; font-size: 1.1em; border-bottom: 1px solid #ffd700;">
-        🌧️ Monsoon Magic: Let the rain wash away worries and bring fresh beginnings. Enjoy exclusive monsoon offers!
+    
+    <div id="festival-popup" style="background-color: hsl(0, 0%, 24%); color: #fff; padding: 16px; text-align: center; font-size: 1.1em; border-bottom: 1px solid hsl(0, 0%, 24%);">
+        🌧️ <span style="color: #fff;">Monsoon Magic: Let the rain wash away worries and bring fresh beginnings. Enjoy exclusive monsoon offers!</span>
         <br>
         <button style="margin-top:10px; padding:10px 20px; font-size:1em; background-color:#0071ce; color:#fff; border:none; border-radius:5px; cursor:pointer;" onclick="window.location.href='trending'">
             Explore Items to Buy
         </button></div>
-     {% if out_of_stock_count > 0 %}
+    
+    {% if out_of_stock_count > 0 %}
     <div class="emergency-popup">
         🔴 {{ out_of_stock_count }} item(s) are out of stock. Restock immediately! 
         <a href="{{ url_for('predict') }}#outofstock">[See more]</a>
     </div>
     {% endif %}
+    
     <div class="container">
         <div class="welcome">Welcome</div>
         <div class="buttons">
-            <button onclick="window.location.href='display_items'">See Available items</button>
-            <button onclick="window.location.href='deals'">See all Deals</button>
+            <button onclick="window.location.href='display_items'">See Available Items</button>
+            <button onclick="window.location.href='deals'">See All Deals</button>
             <button onclick="window.location.href='restore_predict'">Predict Restocking</button>
             <button onclick="window.location.href='most_popular'">Most Popular Items</button>
         </div>
     </div>
+
+    <script>
+        // Add floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 6000);
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 500);
+        
+        // Add smooth scroll behavior
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
 </body>
 </html>
