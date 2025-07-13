@@ -290,6 +290,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="navbar">
         <span>Walmart</span>
@@ -348,5 +349,47 @@
             });
         });
     </script>
+    <footer style="background-color: #0071ce; color: white; padding: 2rem 1rem; margin-top: 4rem;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 2rem; max-width: 1200px; margin: auto;">
+    
+    <!-- Contact Info -->
+    <div>
+      <h3>Contact Me</h3>
+      <p>Email: <a href="mailto:youremail@example.com" style="color: white;">youremail@example.com</a></p>
+      <p>Phone: +91-12345-67890</p>
+    </div>
+
+    <!-- Feedback -->
+    <div>
+      <h3>Feedback</h3>
+      <form action="/feedback" method="POST">
+        <textarea name="feedback" placeholder="Your feedback..." rows="3" style="width: 100%; padding: 0.5rem;"></textarea><br>
+        <button type="submit" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: white; color: #0071ce; border: none;">Submit</button>
+      </form>
+    </div>
+
+    <!-- Useful Links -->
+    <div>
+      <h3>Quick Links</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="{{ url_for('index') }}" style="color: white;">🏠 Home</a></li>
+        <li><a href="{{ url_for('items') }}" style="color: white;">📦 Inventory</a></li>
+        <li><a href="{{ url_for('predict') }}" style="color: white;">📊 Predict</a></li>
+        <li><a href="{{ url_for('deals') }}" style="color: white;">💰 Deals</a></li>
+      </ul>
+    </div>
+
+    <!-- Social Media (Optional) -->
+    <div>
+      <h3>Connect</h3>
+      <a href="#" style="color: white; margin-right: 0.5rem;">🔗 LinkedIn</a><br>
+      <a href="#" style="color: white;">📸 Instagram</a>
+    </div>
+
+  </div>
+
+  <p style="text-align: center; margin-top: 2rem;">&copy; {{ current_year }} Walmart Inventory AI Dashboard. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
