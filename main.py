@@ -37,6 +37,11 @@ def most_popular():
     popular_items = get_most_popular_items()
     return render_template("most_popular.html", items=popular_items)
 
+@app.route("/chats")
+def chats():
+    return render_template("chats.html")
+
+
 ##festive pop-up
 if __name__=="__main__":
     serve(app, host='0.0.0.0', port=4000)
