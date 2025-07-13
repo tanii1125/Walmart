@@ -121,6 +121,7 @@
                 <th>Remaining Stock</th>
                 <th>Last restocked</th>
                 <th>Efficiency</th>
+                <th>Expiring soon?</th>
             </tr>
         </thead>
         <tbody>
@@ -135,6 +136,7 @@
                 <td>{{ item.total_purchase - item.sell }}</td>
                 <td>{{ item.last_restock_date }}</td>
                 <td>{{ (item.efficiency *100) | round(2) }}</td>
+                <td>{{ 'Yes' if item.expiring_soon else 'No' }}</td>
             </tr>
             {% endfor %}
         </tbody>

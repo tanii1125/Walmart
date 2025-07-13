@@ -303,9 +303,11 @@
         </button></div>
     
     {% if out_of_stock_count > 0 %}
-    <div class="emergency-popup">
+    <div class="emergency-popup"</div>>
         🔴 {{ out_of_stock_count }} item(s) are out of stock. Restock immediately! 
-        <a href="{{ url_for('predict') }}#outofstock">[See more]</a>
+        <a href="{{ url_for('predict') }}#Out%20of%20Stock%20%E2%80%94%20Restock%20Immediately">[See more]</a>
+
+
     </div>
     {% endif %}
     

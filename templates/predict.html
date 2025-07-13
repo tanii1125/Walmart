@@ -149,6 +149,7 @@
             <th>S. No</th>
             <th>Name</th>
             <th>Company</th>
+            <th>Units purchased</th>
             <th>Remaining Stock</th>
             <th>Efficiency</th>
             <th>Suggestion</th>
@@ -158,6 +159,7 @@
             <td>{{ loop.index }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.company }}</td>
+            <td>{{item.total_units}}</td>
             <td>{{ item.remaining }}</td>
             <td>{{ (item.efficiency ) | round(2) }}%</td>
             <td>
@@ -175,7 +177,15 @@
     </table>
 
     {% if out_of_stock %}
-    <h2 class="section-title out-of-stock">🟥 Out of Stock — Restock Immediately</h2>
+        <style>
+    html {
+        scroll-behavior: smooth;
+    }
+    </style>
+    <h2 id="Out of Stock — Restock Immediately" class="section-title out-of-stock">
+    🟥 Out of Stock — Restock Immediately
+    </h2>
+    <!-- <h2 class="section-title out-of-stock">🟥 Out of Stock — Restock Immediately</h2> -->
     <table id="outOfStockTable">
         <tr>
             <th>S. No</th>
@@ -205,6 +215,7 @@
             <th>Company</th>
             <th>Last Restocked</th>
             <th>Days Since</th>
+            <th>Predicted resock date</th>
         </tr>
         {% for item in restock_by_date %}
         <tr>
@@ -213,6 +224,7 @@
             <td>{{ item.company }}</td>
             <td>{{ item.last_restock_date }}</td>
             <td>{{ item.days_since }}</td>
+            <td>{{ item.predicted_date }}</td>
         </tr>
         {% endfor %}
     </table>

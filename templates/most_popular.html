@@ -116,7 +116,6 @@
                 <th>Company</th>
                 <th>Units Sold</th>
                 <th>Total Purchased</th>
-                <th>Efficiency</th>
                 <th>Popularity Score</th>
             </tr>
         </thead>
@@ -128,8 +127,7 @@
                 <td>{{ item.company }}</td>
                 <td>{{ item.sell }}</td>
                 <td>{{ item.total }}</td>
-                <td>{{ (item.efficiency * 100) | round(2) }}%</td>
-                <td>{{ item.popularity_score | round(2) }}%</td>
+                <td>{{ item.efficiency * 100 | round(2) }}%</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -6,9 +6,7 @@ def get_most_popular_items():
     for item in get_items():
         sell = item['sell']
         total = item['total_purchase']
-        efficiency = item['efficiency']
-
-        popularity_score = (sell / total) * 100  # Higher is better
+        efficiency =round(item['efficiency'], 2) # Higher is better
 
         popular_items.append({
             "name": item["name"],
@@ -16,10 +14,9 @@ def get_most_popular_items():
             "sell": sell,
             "total": total,
             "efficiency": efficiency,
-            "popularity_score": popularity_score
         })
 
     # Sort items by popularity score descending
-    popular_items.sort(key=lambda x: x["popularity_score"], reverse=True)
+    popular_items.sort(key=lambda x: x["efficiency"], reverse=True)
 
     return popular_items

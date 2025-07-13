@@ -50,29 +50,50 @@ def full_items():
     {"name": "Notebook", "company": "Classmate", "expiry": "2030-01-01", "total_purchase": 900, "last_restock_date": "2024-06-10", "sell": 870},
     {"name": "Pen", "company": "Reynolds", "expiry": "2030-01-01", "total_purchase": 1000, "last_restock_date": "2024-06-05", "sell": 990},
     {"name": "Battery", "company": "Duracell", "expiry": "2029-01-01", "total_purchase": 500, "last_restock_date": "2024-03-20", "sell": 480},
-    {"name": "Toaster", "company": "Philips", "expiry": "2030-01-01", "total_purchase": 60, "last_restock_date": "2025-04-15", "sell": 58}
+    {"name": "Toaster", "company": "Philips", "expiry": "2030-01-01", "total_purchase": 60, "last_restock_date": "2025-04-15", "sell": 58},
+    {"name": "Play Station", "company": "Sony", "expiry": "None", "total_purchase": 10, "last_restock_date": "2025-04-15", "sell": 5}
 ]
     return items
+
+from datetime import datetime, timedelta
+
 def get_items():
-    items=full_items()
+    items = full_items()
     today = datetime.today()
     filtered_items = []
 
     for item in items:
-        expiry_date = datetime.strptime(item['expiry'], "%Y-%m-%d")
+        # Handle expiry date safely
+        if item['expiry'] in (None, "None", ""):
+            expiry_date = None
+        else:
+            expiry_date = datetime.strptime(item['expiry'], "%Y-%m-%d")
+
+        # Calculate remaining stock
         remaining = item['total_purchase'] - item['sell']
-
-        # Skip items with no stock
         if remaining <= 0:
-            continue
+            continue  # Skip items with no stock
 
+        # Calculate efficiency
         efficiency = item['sell'] / item['total_purchase']
-        expiring_soon = expiry_date <= (today + timedelta(days=30))
 
+        # Expiring within 30 days?
+        expiring_soon = False
+        if expiry_date:
+            expiring_soon = expiry_date <= (today + timedelta(days=30))
+
+        # Set a value for sorting even if expiry_date is None
+        expiry_sort_value = expiry_date if expiry_date else datetime.max
+
+        # Enrich the item
         item['efficiency'] = efficiency
         item['remaining'] = remaining
         item['expiring_soon'] = expiring_soon
+        item['expiry_sort'] = expiry_sort_value
 
         filtered_items.append(item)
+
+    # Optional: sort by expiry (soonest first)
+    filtered_items.sort(key=lambda x: x['expiry_sort'])
 
     return filtered_items

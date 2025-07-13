@@ -6,8 +6,17 @@ def get_deals():
     cutoff = today + timedelta(days=30)
 
     items = get_items()
+    deals = []
 
-    # Filter items expiring within the next 30 days
-    deals = [item for item in items if datetime.strptime(item['expiry'], "%Y-%m-%d") <= cutoff]
+    for item in items:
+        expiry_str = item.get('expiry')
+
+        if expiry_str in (None, "None", ""):
+            continue
+
+        expiry_date = datetime.strptime(expiry_str, "%Y-%m-%d")
+
+        if expiry_date <= cutoff:
+            deals.append(item)
 
     return deals
